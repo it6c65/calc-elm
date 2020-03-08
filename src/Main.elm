@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (Html, button, div, text)
+import Html.Attributes exposing (style)
 import Html.Events exposing (onClick)
 
 
@@ -50,8 +51,7 @@ actualiza mensaje calcula =
             calcula * 2
 
         Divide ->
-            round (toFloat calcula / 2)
-
+            calcula // 2
 
 
 -- Vista de la App
@@ -59,10 +59,39 @@ actualiza mensaje calcula =
 
 vista : Calcular -> Html Mensaje
 vista resultado =
-    div []
-        [ div [] [ text (String.fromInt resultado) ]
-        , button [ onClick Suma ] [ text "+" ]
-        , button [ onClick Resta ] [ text "-" ]
-        , button [ onClick Multiplica ] [ text "*2" ]
-        , button [ onClick Divide ] [ text "/2" ]
+    div
+        [ style "display" "flex"
+        , style "justify-content" "center"
+        , style "align-items" "center"
+        , style "flex-direction" "column"
+        , style "margin-top" "40px"
         ]
+        [ div [ style "background-color" "#ecf8f8"
+              , style "padding" "10px 8em"
+              ] [ text (String.fromInt resultado) ]
+        , div []
+            [ btnCalc Suma "+"
+            , btnCalc Resta "-"
+            , btnCalc Multiplica "×"
+            , btnCalc Divide "÷"
+            ]
+        ]
+
+
+btnCalc : Mensaje -> String -> Html Mensaje
+btnCalc accion contenido =
+    button
+        [ onClick accion
+        , style "background-color" "#444444"
+        , style "color" "white"
+        , style "border" "none"
+        , style "border-bottom" "solid"
+        , style "border-bottom-width" "3px"
+        , style "border-bottom-color" "#666666"
+        , style "margin-left" "20px"
+        , style "padding" "10px 4em"
+        , style "border-radius" "6px"
+        , style "font-weight" "700"
+        , style "margin-top" "20px"
+        ]
+        [ text contenido ]
