@@ -19,11 +19,12 @@ main =
 
 
 type alias Calcular =
-    { calculado : Int, mostrar : String, numero : Int}
+    { calculado : Int, operador : String, numero : Int }
+
 
 inicio : Calcular
 inicio =
-    { calculado = 0, mostrar = "0", numero = 0 }
+    { calculado = 0, operador = "", numero = 0 }
 
 
 
@@ -31,12 +32,13 @@ inicio =
 
 
 type Mensaje
-    = Suma
+    = -- Declaracion de la operaciones
+      Suma
     | Resta
     | Multiplica
     | Divide
     | Reinicio
-      -- Insertar Numeros
+      -- Declaracion de insertado de Numeros
     | InsertarUno
     | InsertarDos
     | InsertarTres
@@ -46,39 +48,72 @@ type Mensaje
     | InsertarSiete
     | InsertarOcho
     | InsertarNueve
+      -- Declaracion de insertado de Vista de Operadores
+    | InsertarVSuma
+    | InsertarVResta
+    | InsertarVMulti
+    | InsertarVDiv
 
 
 actualiza : Mensaje -> Calcular -> Calcular
 actualiza mensaje calcula =
     case mensaje of
+        -- Operaciones
         Suma ->
             { calcula | calculado = calcula.calculado + calcula.numero }
+
         Resta ->
             { calcula | calculado = calcula.calculado - calcula.numero }
+
         Multiplica ->
             { calcula | calculado = calcula.calculado * calcula.numero }
+
         Divide ->
             { calcula | calculado = calcula.calculado // calcula.numero }
+
         Reinicio ->
             { calcula | calculado = calcula.calculado * 0 }
+
+        -- Insertado de numeros
         InsertarUno ->
             { calcula | numero = 1 }
+
         InsertarDos ->
             { calcula | numero = 2 }
+
         InsertarTres ->
             { calcula | numero = 3 }
+
         InsertarCuatro ->
             { calcula | numero = 4 }
+
         InsertarCinco ->
             { calcula | numero = 5 }
+
         InsertarSeis ->
             { calcula | numero = 6 }
+
         InsertarSiete ->
             { calcula | numero = 7 }
+
         InsertarOcho ->
             { calcula | numero = 8 }
+
         InsertarNueve ->
             { calcula | numero = 9 }
+
+        -- Vista de operadores
+        InsertarVSuma ->
+            { calcula | operador = "+" }
+
+        InsertarVResta ->
+            { calcula | operador = "-" }
+
+        InsertarVMulti ->
+            { calcula | operador = "*" }
+
+        InsertarVDiv ->
+            { calcula | operador = "/" }
 
 
 
@@ -103,15 +138,14 @@ vista resultado =
             ]
             [ text (String.fromInt resultado.calculado) ]
         , div []
-            [ btnCalc Suma "+"
-            , btnCalc Resta "-"
-            , btnCalc Multiplica "×"
-            , btnCalc Divide "÷"
-            ],
-            div []
-                [ btnCalc Reinicio "Reinicio"]
-            ,
-            div []
+            [ btnCalc InsertarVSuma "+"
+            , btnCalc InsertarVResta "-"
+            , btnCalc InsertarVMulti "×"
+            , btnCalc InsertarVDiv "÷"
+            ]
+        , div []
+            [ btnCalc Reinicio "Reinicio" ]
+        , div []
             [ btnCalc InsertarUno "1"
             , btnCalc InsertarDos "2"
             , btnCalc InsertarTres "3"
@@ -121,8 +155,40 @@ vista resultado =
             , btnCalc InsertarSiete "7"
             , btnCalc InsertarOcho "8"
             , btnCalc InsertarNueve "9"
-                ]
+            ]
+        , div [] [ btnIgualdad resultado.operador ]
         ]
+
+
+btnIgualdad : String -> Html Mensaje
+btnIgualdad operador_actual =
+    if operador_actual == "+" then
+        btnCalc Suma "="
+
+    else if operador_actual == "-" then
+        btnCalc Resta "="
+
+    else if operador_actual == "*" then
+        btnCalc Multiplica "="
+
+    else if operador_actual == "/" then
+        btnCalc Divide "="
+
+    else
+        button [
+        -- Estilos del Boton
+        style "background-color" "#444444"
+        , style "color" "white"
+        , style "border" "none"
+        , style "border-bottom" "solid"
+        , style "border-bottom-width" "3px"
+        , style "border-bottom-color" "#666666"
+        , style "margin-left" "20px"
+        , style "padding" "10px 4em"
+        , style "border-radius" "6px"
+        , style "font-weight" "700"
+        , style "margin-top" "20px"]
+        [ text "=" ]
 
 
 btnCalc : Mensaje -> String -> Html Mensaje
