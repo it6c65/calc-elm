@@ -70,6 +70,7 @@ actualiza : Mensaje -> Calcular -> Calcular
 actualiza mensaje calcula =
     case mensaje of
         -- Operaciones
+        -- Todos los operadores hacen la operacion y borrar el segundo numero del calculo y el operador utilizado
         Suma ->
             { calcula | calculado = calcula.calculado + calcula.numero, operador = "", numero = 0 }
 
@@ -86,6 +87,9 @@ actualiza mensaje calcula =
             { calcula | calculado = calcula.calculado * 0, numero = calcula.numero * 0, operador = "" }
 
         -- Insertado de numeros del primer numero
+        -- De todos los valores insertados, se evaluan si son iguales a cero
+        -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
+        -- para las operaciones
         InsertarUnoAlprincipio ->
             if calcula.calculado == 0 then
                 { calcula | calculado = 1 }
@@ -142,6 +146,9 @@ actualiza mensaje calcula =
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "9")) }
 
         -- Insertado de numeros
+        -- De todos los valores insertados, se evaluan si son iguales a cero
+        -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
+        -- para las operaciones
         InsertarUno ->
             if calcula.numero == 0 then
                 { calcula | numero = 1 }
@@ -206,6 +213,7 @@ actualiza mensaje calcula =
                 { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "9")) }
 
         -- Vista de operadores
+        -- Agrega el operador con el que determina el calculo
         InsertarVSuma ->
             { calcula | operador = "+" }
 
@@ -220,7 +228,7 @@ actualiza mensaje calcula =
 
 
 
--- Vista de la App
+-- Vista de la App (vista final)
 
 
 vista : Calcular -> Html Mensaje
@@ -253,6 +261,11 @@ vista resultado =
         ]
 
 
+-- Componentes de la vista
+
+
+-- Evalua si el operador esta declarado para insertar el segundo numero
+-- de la operacion matematica
 insercionNumeros : String -> Html Mensaje
 insercionNumeros operador =
     if String.isEmpty operador then
@@ -281,7 +294,8 @@ insercionNumeros operador =
             , btnCalc InsertarNueve "9"
             ]
 
-
+-- Muestra los resultados y operadores insertados
+-- Ademas evalua si el segundo numero deberia ser visible
 panelDeCalculo : Int -> String -> Int -> String
 panelDeCalculo primer_numero operador segundo_numero =
     if segundo_numero == 0 then
@@ -290,9 +304,10 @@ panelDeCalculo primer_numero operador segundo_numero =
     else
         String.fromInt primer_numero ++ operador ++ String.fromInt segundo_numero
 
-
-btnComun : Html Mensaje
-btnComun =
+-- Estilo de Boton
+-- para el boton igual sin parametros
+btnIgualDesactivado : Html Mensaje
+btnIgualDesactivado =
     button
         [ -- Estilos del Boton
           style "background-color" "#444444"
@@ -310,6 +325,7 @@ btnComun =
         [ text "=" ]
 
 
+-- El boton de igualdad determina el operador y la funcion a utilizar
 btnIgualdad : String -> Html Mensaje
 btnIgualdad operador_actual =
     if operador_actual == "+" then
@@ -325,23 +341,9 @@ btnIgualdad operador_actual =
         btnCalc Divide "="
 
     else
-        button
-            [ -- Estilos del Boton
-              style "background-color" "#444444"
-            , style "color" "white"
-            , style "border" "none"
-            , style "border-bottom" "solid"
-            , style "border-bottom-width" "3px"
-            , style "border-bottom-color" "#666666"
-            , style "margin-left" "20px"
-            , style "padding" "10px 4em"
-            , style "border-radius" "6px"
-            , style "font-weight" "700"
-            , style "margin-top" "20px"
-            ]
-            [ text "=" ]
+        btnIgualDesactivado
 
-
+-- Boton estilizado para accion cualquier accion dentro de la calculadora
 btnCalc : Mensaje -> String -> Html Mensaje
 btnCalc accion contenido =
     button
