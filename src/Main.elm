@@ -8,6 +8,7 @@ import Html.Events exposing (onClick)
 
 
 -- Declaro el principal que puede ser Sandbox, element u otros...
+-- En este caso "sandbox"  por que no quiero interoperabilidad con JS
 
 
 main =
@@ -15,7 +16,7 @@ main =
 
 
 
--- Inicio la variable principal
+-- Inicio la variable principal, que se pasara como Mensaje
 
 
 type alias Calcular =
@@ -38,7 +39,17 @@ type Mensaje
     | Multiplica
     | Divide
     | Reinicio
-      -- Declaracion de insertado de Numeros
+      -- Declaracion para insertar el primer numero
+    | InsertarUnoAlprincipio
+    | InsertarDosAlprincipio
+    | InsertarTresAlprincipio
+    | InsertarCuatroAlprincipio
+    | InsertarCincoAlprincipio
+    | InsertarSeisAlprincipio
+    | InsertarSieteAlprincipio
+    | InsertarOchoAlprincipio
+    | InsertarNueveAlprincipio
+      -- Declaracion de insertado de Numeros (el sengundo)
     | InsertarUno
     | InsertarDos
     | InsertarTres
@@ -60,47 +71,139 @@ actualiza mensaje calcula =
     case mensaje of
         -- Operaciones
         Suma ->
-            { calcula | calculado = calcula.calculado + calcula.numero }
+            { calcula | calculado = calcula.calculado + calcula.numero, operador = "", numero = 0 }
 
         Resta ->
-            { calcula | calculado = calcula.calculado - calcula.numero }
+            { calcula | calculado = calcula.calculado - calcula.numero, operador = "", numero = 0 }
 
         Multiplica ->
-            { calcula | calculado = calcula.calculado * calcula.numero }
+            { calcula | calculado = calcula.calculado * calcula.numero, operador = "", numero = 0 }
 
         Divide ->
-            { calcula | calculado = calcula.calculado // calcula.numero }
+            { calcula | calculado = calcula.calculado // calcula.numero, operador = "", numero = 0 }
 
         Reinicio ->
-            { calcula | calculado = calcula.calculado * 0 }
+            { calcula | calculado = calcula.calculado * 0, numero = calcula.numero * 0, operador = "" }
+
+        -- Insertado de numeros del primer numero
+        InsertarUnoAlprincipio ->
+            if calcula.calculado == 0 then
+                { calcula | calculado = 1 }
+
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "1")) }
+
+        InsertarDosAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 2 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "2")) }
+
+        InsertarTresAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 3 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "3")) }
+
+        InsertarCuatroAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 4 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "4")) }
+
+        InsertarCincoAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 5 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "5")) }
+
+        InsertarSeisAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 6 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "6")) }
+
+        InsertarSieteAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 7 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "7")) }
+
+        InsertarOchoAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 8 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "8")) }
+
+        InsertarNueveAlprincipio ->
+            if calcula.calculado == 0 then
+            { calcula | calculado = 9 }
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "9")) }
 
         -- Insertado de numeros
         InsertarUno ->
-            { calcula | numero = 1 }
+            if calcula.numero == 0 then
+                { calcula | numero = 1 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "1")) }
 
         InsertarDos ->
-            { calcula | numero = 2 }
+            if calcula.numero == 0 then
+                { calcula | numero = 2 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "2")) }
 
         InsertarTres ->
-            { calcula | numero = 3 }
+            if calcula.numero == 0 then
+                { calcula | numero = 3 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "3")) }
 
         InsertarCuatro ->
-            { calcula | numero = 4 }
+            if calcula.numero == 0 then
+                { calcula | numero = 4 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "4")) }
 
         InsertarCinco ->
-            { calcula | numero = 5 }
+            if calcula.numero == 0 then
+                { calcula | numero = 5 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "5")) }
 
         InsertarSeis ->
-            { calcula | numero = 6 }
+            if calcula.numero == 0 then
+                { calcula | numero = 6 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "6")) }
 
         InsertarSiete ->
-            { calcula | numero = 7 }
+            if calcula.numero == 0 then
+                { calcula | numero = 7 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "7")) }
 
         InsertarOcho ->
-            { calcula | numero = 8 }
+            if calcula.numero == 0 then
+                { calcula | numero = 8 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "8")) }
 
         InsertarNueve ->
-            { calcula | numero = 9 }
+            if calcula.numero == 0 then
+                { calcula | numero = 9 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "9")) }
 
         -- Vista de operadores
         InsertarVSuma ->
@@ -136,7 +239,7 @@ vista resultado =
             , style "border" "solid 1px"
             , style "border-radius" "5px"
             ]
-            [ text (String.fromInt resultado.calculado) ]
+            [ text (panelDeCalculo resultado.calculado resultado.operador resultado.numero) ]
         , div []
             [ btnCalc InsertarVSuma "+"
             , btnCalc InsertarVResta "-"
@@ -145,7 +248,28 @@ vista resultado =
             ]
         , div []
             [ btnCalc Reinicio "Reinicio" ]
-        , div []
+        , insercionNumeros resultado.operador
+        , div [] [ btnIgualdad resultado.operador ]
+        ]
+
+
+insercionNumeros : String -> Html Mensaje
+insercionNumeros operador =
+    if String.isEmpty operador then
+        div []
+            [ btnCalc InsertarUnoAlprincipio "1"
+            , btnCalc InsertarDosAlprincipio "2"
+            , btnCalc InsertarTresAlprincipio "3"
+            , btnCalc InsertarCuatroAlprincipio "4"
+            , btnCalc InsertarCincoAlprincipio "5"
+            , btnCalc InsertarSeisAlprincipio "6"
+            , btnCalc InsertarSieteAlprincipio "7"
+            , btnCalc InsertarOchoAlprincipio "8"
+            , btnCalc InsertarNueveAlprincipio "9"
+            ]
+
+    else
+        div []
             [ btnCalc InsertarUno "1"
             , btnCalc InsertarDos "2"
             , btnCalc InsertarTres "3"
@@ -156,8 +280,34 @@ vista resultado =
             , btnCalc InsertarOcho "8"
             , btnCalc InsertarNueve "9"
             ]
-        , div [] [ btnIgualdad resultado.operador ]
+
+
+panelDeCalculo : Int -> String -> Int -> String
+panelDeCalculo primer_numero operador segundo_numero =
+    if segundo_numero == 0 then
+        String.fromInt primer_numero ++ operador
+
+    else
+        String.fromInt primer_numero ++ operador ++ String.fromInt segundo_numero
+
+
+btnComun : Html Mensaje
+btnComun =
+    button
+        [ -- Estilos del Boton
+          style "background-color" "#444444"
+        , style "color" "white"
+        , style "border" "none"
+        , style "border-bottom" "solid"
+        , style "border-bottom-width" "3px"
+        , style "border-bottom-color" "#666666"
+        , style "margin-left" "20px"
+        , style "padding" "10px 4em"
+        , style "border-radius" "6px"
+        , style "font-weight" "700"
+        , style "margin-top" "20px"
         ]
+        [ text "=" ]
 
 
 btnIgualdad : String -> Html Mensaje
@@ -175,20 +325,21 @@ btnIgualdad operador_actual =
         btnCalc Divide "="
 
     else
-        button [
-        -- Estilos del Boton
-        style "background-color" "#444444"
-        , style "color" "white"
-        , style "border" "none"
-        , style "border-bottom" "solid"
-        , style "border-bottom-width" "3px"
-        , style "border-bottom-color" "#666666"
-        , style "margin-left" "20px"
-        , style "padding" "10px 4em"
-        , style "border-radius" "6px"
-        , style "font-weight" "700"
-        , style "margin-top" "20px"]
-        [ text "=" ]
+        button
+            [ -- Estilos del Boton
+              style "background-color" "#444444"
+            , style "color" "white"
+            , style "border" "none"
+            , style "border-bottom" "solid"
+            , style "border-bottom-width" "3px"
+            , style "border-bottom-color" "#666666"
+            , style "margin-left" "20px"
+            , style "padding" "10px 4em"
+            , style "border-radius" "6px"
+            , style "font-weight" "700"
+            , style "margin-top" "20px"
+            ]
+            [ text "=" ]
 
 
 btnCalc : Mensaje -> String -> Html Mensaje
