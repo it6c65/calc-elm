@@ -234,13 +234,14 @@ actualiza mensaje calcula =
 vista : Calcular -> Html Mensaje
 vista resultado =
     div
-        [ -- Estilos para Centrar
+        [ -- Estilos para Centrar toda la pagina
           style "display" "flex"
         , style "justify-content" "center"
         , style "align-items" "center"
         , style "flex-direction" "column"
         , style "margin-top" "40px"
         ]
+        -- Estilos para el panel
         [ div
             [ style "background-color" "#ecf8f8"
             , style "padding" "10px 8em"
@@ -269,6 +270,7 @@ vista resultado =
 insercionNumeros : String -> Html Mensaje
 insercionNumeros operador =
     if String.isEmpty operador then
+        -- Botones para el primer numero
         div []
             [ btnCalc InsertarUnoAlprincipio "1"
             , btnCalc InsertarDosAlprincipio "2"
@@ -282,6 +284,7 @@ insercionNumeros operador =
             ]
 
     else
+        -- Botones para el segundo numero
         div []
             [ btnCalc InsertarUno "1"
             , btnCalc InsertarDos "2"
