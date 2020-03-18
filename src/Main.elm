@@ -49,6 +49,7 @@ type Mensaje
     | InsertarSieteAlprincipio
     | InsertarOchoAlprincipio
     | InsertarNueveAlprincipio
+    | InsertarCeroAlprincipio
       -- Declaracion de insertado de Numeros (el sengundo)
     | InsertarUno
     | InsertarDos
@@ -59,6 +60,7 @@ type Mensaje
     | InsertarSiete
     | InsertarOcho
     | InsertarNueve
+    | InsertarCero
       -- Declaracion de insertado de Vista de Operadores
     | InsertarVSuma
     | InsertarVResta
@@ -153,6 +155,13 @@ actualiza mensaje calcula =
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "9")) }
 
+        InsertarCeroAlprincipio ->
+            if calcula.calculado == 0 then
+                { calcula | calculado = 0 }
+
+            else
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "0")) }
+
         -- Insertado de numeros
         -- De todos los valores insertados, se evaluan si son iguales a cero
         -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
@@ -219,6 +228,13 @@ actualiza mensaje calcula =
 
             else
                 { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "9")) }
+
+        InsertarCero ->
+            if calcula.numero == 0 then
+                { calcula | numero = 0 }
+
+            else
+                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "0")) }
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
@@ -295,7 +311,7 @@ vista resultado =
                     ]
                 , insercionNumeros resultado.operador
                 ]
-            , div [] [ btnCalc Reinicio "C", btnIgualdad resultado.operador ]
+            , div [] [ btnCalc Reinicio "C", insercionCero resultado.operador , btnIgualdad resultado.operador ]
             ]
         ]
 
@@ -349,6 +365,18 @@ insercionNumeros operador =
             ]
 
 
+-- Lo mismo que a los demas numeros para solo para el "Cero"
+insercionCero : String -> Html Mensaje
+insercionCero operador =
+    if String.isEmpty operador then
+        -- Boton Cero para el primer numero
+        btnCalc InsertarCeroAlprincipio "0"
+
+    else
+        -- Boton Cero para el segundo numero
+        btnCalc InsertarCero "0"
+
+
 
 -- Muestra los resultados y operadores insertados
 -- Ademas evalua si el segundo numero deberia ser visible
@@ -380,7 +408,7 @@ btnIgualDesactivado =
         , style "border-bottom-color" "#666666"
         , style "margin-left" "20px"
         , style "margin-right" "20px"
-        , style "padding" "20px 150px"
+        , style "padding" "20px 100px"
         , style "border-radius" "6px"
         , style "font-weight" "700"
         , style "font-size" "xx-large"
@@ -393,7 +421,8 @@ btnIgual : Mensaje -> Html Mensaje
 btnIgual accion =
     button
         [ onClick accion
-         -- Estilos del Boton
+
+        -- Estilos del Boton
         , style "background-color" "#444444"
         , style "color" "white"
         , style "border" "none"
@@ -402,13 +431,15 @@ btnIgual accion =
         , style "border-bottom-color" "#666666"
         , style "margin-left" "20px"
         , style "margin-right" "20px"
-        , style "padding" "20px 150px"
+        , style "padding" "20px 100px"
         , style "border-radius" "6px"
         , style "font-weight" "700"
         , style "font-size" "xx-large"
         , style "margin-top" "20px"
         ]
         [ text "=" ]
+
+
 
 -- El boton de igualdad determina el operador y la funcion a utilizar
 
