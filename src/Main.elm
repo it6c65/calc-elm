@@ -99,49 +99,57 @@ actualiza mensaje calcula =
 
         InsertarDosAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 2 }
+                { calcula | calculado = 2 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "2")) }
 
         InsertarTresAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 3 }
+                { calcula | calculado = 3 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "3")) }
 
         InsertarCuatroAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 4 }
+                { calcula | calculado = 4 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "4")) }
 
         InsertarCincoAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 5 }
+                { calcula | calculado = 5 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "5")) }
 
         InsertarSeisAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 6 }
+                { calcula | calculado = 6 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "6")) }
 
         InsertarSieteAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 7 }
+                { calcula | calculado = 7 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "7")) }
 
         InsertarOchoAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 8 }
+                { calcula | calculado = 8 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "8")) }
 
         InsertarNueveAlprincipio ->
             if calcula.calculado == 0 then
-            { calcula | calculado = 9 }
+                { calcula | calculado = 9 }
+
             else
                 { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "9")) }
 
@@ -236,69 +244,116 @@ vista resultado =
     div
         [ -- Estilos para Centrar toda la pagina
           style "display" "flex"
-        , style "justify-content" "center"
         , style "align-items" "center"
-        , style "flex-direction" "column"
-        , style "margin-top" "40px"
+        , style "justify-content" "center"
         ]
-        -- Estilos para el panel
         [ div
-            [ style "background-color" "#ecf8f8"
-            , style "padding" "10px 8em"
-            , style "border" "solid 1px"
-            , style "border-radius" "5px"
+            [ -- Estilos para la calculadora
+              style "display" "flex"
+            , style "align-items" "center"
+            , style "flex-direction" "column"
+            , style "margin-top" "40px"
+            , style "background-color" "gray"
+            , style "border-color" "black"
+            , style "border" "none"
+            , style "border-bottom" "solid"
+            , style "border-bottom-width" "3px"
+            , style "border-bottom-color" "#666666"
+            , style "border-right" "solid"
+            , style "border-right-color" "#666666"
+            , style "padding-top" "20px"
+            , style "padding-bottom" "20px"
+            , style "width" "500px"
+            , style "border-radius" "8px"
             ]
-            [ text (panelDeCalculo resultado.calculado resultado.operador resultado.numero) ]
-        , div []
-            [ btnCalc InsertarVSuma "+"
-            , btnCalc InsertarVResta "-"
-            , btnCalc InsertarVMulti "×"
-            , btnCalc InsertarVDiv "÷"
+            -- Estilos para el panel
+            [ div
+                [ style "background-color" "#ecf8f8"
+                , style "padding" "10px 4px"
+                , style "border-radius" "5px"
+                , style "border" "none"
+                , style "border-bottom" "solid"
+                , style "border-bottom-width" "3px"
+                , style "border-bottom-color" "rgba(0,0,0,0.6)"
+                , style "border-right" "solid"
+                , style "border-right-color" "rgba(0,0,0,0.6)"
+                , style "font-size" "xxx-large"
+                , style "overflow-x" "auto"
+                , style "width" "400px"
+                , style "text-align" "center"
+                ]
+                -- Contenido del Panel
+                [ text (panelDeCalculo resultado.calculado resultado.operador resultado.numero) ]
+
+            -- botones de la calculadora
+            , div [ style "display" "flex", style "flex-direction" "row-reverse" ]
+                [ div [ style "display" "flex", style "flex-direction" "column", style "padding-right" "20px", style "padding-top" "10px" ]
+                    [ btnOperador InsertarVSuma "+"
+                    , btnOperador InsertarVResta "-"
+                    , btnOperador InsertarVMulti "×"
+                    , btnOperador InsertarVDiv "÷"
+                    ]
+                , insercionNumeros resultado.operador
+                ]
+            , div [] [ btnCalc Reinicio "C", btnIgualdad resultado.operador ]
             ]
-        , div []
-            [ btnCalc Reinicio "Reinicio" ]
-        , insercionNumeros resultado.operador
-        , div [] [ btnIgualdad resultado.operador ]
         ]
+
 
 
 -- Componentes de la vista
-
-
 -- Evalua si el operador esta declarado para insertar el segundo numero
 -- de la operacion matematica
+
+
 insercionNumeros : String -> Html Mensaje
 insercionNumeros operador =
     if String.isEmpty operador then
         -- Botones para el primer numero
-        div []
-            [ btnCalc InsertarUnoAlprincipio "1"
-            , btnCalc InsertarDosAlprincipio "2"
-            , btnCalc InsertarTresAlprincipio "3"
-            , btnCalc InsertarCuatroAlprincipio "4"
-            , btnCalc InsertarCincoAlprincipio "5"
-            , btnCalc InsertarSeisAlprincipio "6"
-            , btnCalc InsertarSieteAlprincipio "7"
-            , btnCalc InsertarOchoAlprincipio "8"
-            , btnCalc InsertarNueveAlprincipio "9"
+        div [ style "display" "flex", style "flex-direction" "column" ]
+            [ div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarUnoAlprincipio "1"
+                , btnCalc InsertarDosAlprincipio "2"
+                , btnCalc InsertarTresAlprincipio "3"
+                ]
+            , div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarCuatroAlprincipio "4"
+                , btnCalc InsertarCincoAlprincipio "5"
+                , btnCalc InsertarSeisAlprincipio "6"
+                ]
+            , div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarSieteAlprincipio "7"
+                , btnCalc InsertarOchoAlprincipio "8"
+                , btnCalc InsertarNueveAlprincipio "9"
+                ]
             ]
 
     else
         -- Botones para el segundo numero
-        div []
-            [ btnCalc InsertarUno "1"
-            , btnCalc InsertarDos "2"
-            , btnCalc InsertarTres "3"
-            , btnCalc InsertarCuatro "4"
-            , btnCalc InsertarCinco "5"
-            , btnCalc InsertarSeis "6"
-            , btnCalc InsertarSiete "7"
-            , btnCalc InsertarOcho "8"
-            , btnCalc InsertarNueve "9"
+        div [ style "display" "flex", style "flex-direction" "column" ]
+            [ div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarUno "1"
+                , btnCalc InsertarDos "2"
+                , btnCalc InsertarTres "3"
+                ]
+            , div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarCuatro "4"
+                , btnCalc InsertarCinco "5"
+                , btnCalc InsertarSeis "6"
+                ]
+            , div [ style "display" "flex", style "flex-direction" "row" ]
+                [ btnCalc InsertarSiete "7"
+                , btnCalc InsertarOcho "8"
+                , btnCalc InsertarNueve "9"
+                ]
             ]
+
+
 
 -- Muestra los resultados y operadores insertados
 -- Ademas evalua si el segundo numero deberia ser visible
+
+
 panelDeCalculo : Int -> String -> Int -> String
 panelDeCalculo primer_numero operador segundo_numero =
     if segundo_numero == 0 then
@@ -307,8 +362,12 @@ panelDeCalculo primer_numero operador segundo_numero =
     else
         String.fromInt primer_numero ++ operador ++ String.fromInt segundo_numero
 
+
+
 -- Estilo de Boton
 -- para el boton igual sin parametros
+
+
 btnIgualDesactivado : Html Mensaje
 btnIgualDesactivado =
     button
@@ -320,33 +379,88 @@ btnIgualDesactivado =
         , style "border-bottom-width" "3px"
         , style "border-bottom-color" "#666666"
         , style "margin-left" "20px"
-        , style "padding" "10px 4em"
+        , style "margin-right" "20px"
+        , style "padding" "20px 150px"
         , style "border-radius" "6px"
         , style "font-weight" "700"
+        , style "font-size" "xx-large"
         , style "margin-top" "20px"
         ]
         [ text "=" ]
 
 
+btnIgual : Mensaje -> Html Mensaje
+btnIgual accion =
+    button
+        [ onClick accion
+         -- Estilos del Boton
+        , style "background-color" "#444444"
+        , style "color" "white"
+        , style "border" "none"
+        , style "border-bottom" "solid"
+        , style "border-bottom-width" "3px"
+        , style "border-bottom-color" "#666666"
+        , style "margin-left" "20px"
+        , style "margin-right" "20px"
+        , style "padding" "20px 150px"
+        , style "border-radius" "6px"
+        , style "font-weight" "700"
+        , style "font-size" "xx-large"
+        , style "margin-top" "20px"
+        ]
+        [ text "=" ]
+
 -- El boton de igualdad determina el operador y la funcion a utilizar
+
+
 btnIgualdad : String -> Html Mensaje
 btnIgualdad operador_actual =
     if operador_actual == "+" then
-        btnCalc Suma "="
+        btnIgual Suma
 
     else if operador_actual == "-" then
-        btnCalc Resta "="
+        btnIgual Resta
 
     else if operador_actual == "*" then
-        btnCalc Multiplica "="
+        btnIgual Multiplica
 
     else if operador_actual == "/" then
-        btnCalc Divide "="
+        btnIgual Divide
 
     else
         btnIgualDesactivado
 
+
+
+-- Boton estilizado para los operadores
+
+
+btnOperador : Mensaje -> String -> Html Mensaje
+btnOperador accion contenido =
+    button
+        [ onClick accion
+
+        -- Estilos del Boton
+        , style "background-color" "#733d3d"
+        , style "color" "white"
+        , style "border" "none"
+        , style "border-bottom" "solid"
+        , style "border-bottom-width" "3px"
+        , style "border-bottom-color" "#666666"
+        , style "margin-left" "20px"
+        , style "padding" "10px 2em"
+        , style "border-radius" "6px"
+        , style "font-weight" "700"
+        , style "font-size" "x-large"
+        , style "margin-top" "20px"
+        ]
+        [ text contenido ]
+
+
+
 -- Boton estilizado para accion cualquier accion dentro de la calculadora
+
+
 btnCalc : Mensaje -> String -> Html Mensaje
 btnCalc accion contenido =
     button
@@ -360,9 +474,10 @@ btnCalc accion contenido =
         , style "border-bottom-width" "3px"
         , style "border-bottom-color" "#666666"
         , style "margin-left" "20px"
-        , style "padding" "10px 4em"
+        , style "padding" "20px 1em"
         , style "border-radius" "6px"
         , style "font-weight" "700"
+        , style "font-size" "32px"
         , style "margin-top" "20px"
         ]
         [ text contenido ]
