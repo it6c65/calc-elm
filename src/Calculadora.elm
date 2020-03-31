@@ -99,30 +99,32 @@ actualiza mensaje calcula =
         -- Sino es el caso transforma el valor anterior en cadena y luego
         -- en numero nuevamente para las operaciones
         Insertar num ->
-            if num.yaInserto then
-                if calcula.numero == 0 then
-                    { calcula | numero = num.valor }
+            case num.yaInserto of
+                True ->
+                    if calcula.numero == 0 then
+                        { calcula | numero = num.valor }
 
-                else
-                    { calcula
-                        | numero =
-                            String.fromInt calcula.numero
-                                ++ String.fromInt num.valor
-                                |> String.toInt
-                                |> Maybe.withDefault 0
-                    }
+                    else
+                        { calcula
+                            | numero =
+                                String.fromInt calcula.numero
+                                    ++ String.fromInt num.valor
+                                    |> String.toInt
+                                    |> Maybe.withDefault 0
+                        }
 
-            else if calcula.calculado == 0 then
-                { calcula | calculado = num.valor }
+                False ->
+                    if calcula.calculado == 0 then
+                        { calcula | calculado = num.valor }
 
-            else
-                { calcula
-                    | calculado =
-                        String.fromInt calcula.calculado
-                            ++ String.fromInt num.valor
-                            |> String.toInt
-                            |> Maybe.withDefault 0
-                }
+                    else
+                        { calcula
+                            | calculado =
+                                String.fromInt calcula.calculado
+                                    ++ String.fromInt num.valor
+                                    |> String.toInt
+                                    |> Maybe.withDefault 0
+                        }
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
@@ -270,11 +272,11 @@ insercionCero : String -> Html Mensaje
 insercionCero operador =
     if String.isEmpty operador then
         -- Boton Cero para el primer numero
-        btnCalc (Insertar (Numero 0 True)) "0"
+        btnCalc (Insertar (Numero 0 False)) "0"
 
     else
         -- Boton Cero para el segundo numero
-        btnCalc (Insertar (Numero 0 False)) "0"
+        btnCalc (Insertar (Numero 0 True)) "0"
 
 
 
