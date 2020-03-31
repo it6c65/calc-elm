@@ -46,10 +46,7 @@ type Mensaje
       -- Declaracion para insertar numeros
     | Insertar Numero
       -- Declaracion de insertado de Vista de Operadores
-    | InsertarVSuma
-    | InsertarVResta
-    | InsertarVMulti
-    | InsertarVDiv
+    | Operador String
 
 
 actualiza : Mensaje -> Calcular -> Calcular
@@ -92,17 +89,8 @@ actualiza mensaje calcula =
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
-        InsertarVSuma ->
-            { calcula | operador = "+" }
-
-        InsertarVResta ->
-            { calcula | operador = "-" }
-
-        InsertarVMulti ->
-            { calcula | operador = "*" }
-
-        InsertarVDiv ->
-            { calcula | operador = "/" }
+        Operador signo  ->
+            { calcula | operador = signo }
 
 
 
@@ -158,10 +146,10 @@ vista resultado =
             -- botones de la calculadora
             , div [ style "display" "flex", style "flex-direction" "row-reverse" ]
                 [ div [ style "display" "flex", style "flex-direction" "column", style "padding-right" "20px", style "padding-top" "10px" ]
-                    [ btnOperador InsertarVSuma "+"
-                    , btnOperador InsertarVResta "-"
-                    , btnOperador InsertarVMulti "×"
-                    , btnOperador InsertarVDiv "÷"
+                    [ btnOperador (Operador "+") "+"
+                    , btnOperador (Operador "-") "-"
+                    , btnOperador (Operador "*") "×"
+                    , btnOperador (Operador "/") "÷"
                     ]
                 , insercionNumeros resultado.operador
                 ]
