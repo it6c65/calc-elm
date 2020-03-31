@@ -28,8 +28,12 @@ inicio =
     { calculado = 0, operador = "", numero = 0 }
 
 
+
+-- Determina el valor y donde es insertado
+
+
 type alias Numero =
-    { valor : Int, alPrincipio : Bool }
+    { valor : Int, yaInserto : Bool }
 
 
 
@@ -74,7 +78,7 @@ actualiza mensaje calcula =
         -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
         -- para las operaciones
         Insertar num ->
-            if num.alPrincipio then
+            if num.yaInserto then
                 if calcula.numero == 0 then
                     { calcula | numero = num.valor }
 
@@ -89,7 +93,7 @@ actualiza mensaje calcula =
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
-        Operador signo  ->
+        Operador signo ->
             { calcula | operador = signo }
 
 
