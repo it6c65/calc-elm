@@ -57,39 +57,72 @@ actualiza : Mensaje -> Calcular -> Calcular
 actualiza mensaje calcula =
     case mensaje of
         -- Operaciones
-        -- Todos los operadores hacen la operacion y borrar el segundo numero del calculo y el operador utilizado
+        -- Todos los operadores hacen la operacion y borrar el segundo
+        -- numero del calculo y el operador utilizado
         Suma ->
-            { calcula | calculado = calcula.calculado + calcula.numero, operador = "", numero = 0 }
+            { calcula
+                | calculado = calcula.calculado + calcula.numero
+                , operador = ""
+                , numero = 0
+            }
 
         Resta ->
-            { calcula | calculado = calcula.calculado - calcula.numero, operador = "", numero = 0 }
+            { calcula
+                | calculado = calcula.calculado - calcula.numero
+                , operador = ""
+                , numero = 0
+            }
 
         Multiplica ->
-            { calcula | calculado = calcula.calculado * calcula.numero, operador = "", numero = 0 }
+            { calcula
+                | calculado = calcula.calculado * calcula.numero
+                , operador = ""
+                , numero = 0
+            }
 
         Divide ->
-            { calcula | calculado = calcula.calculado // calcula.numero, operador = "", numero = 0 }
+            { calcula
+                | calculado = calcula.calculado // calcula.numero
+                , operador = ""
+                , numero = 0
+            }
 
         Reinicio ->
-            { calcula | calculado = calcula.calculado * 0, numero = calcula.numero * 0, operador = "" }
+            { calcula
+                | calculado = calcula.calculado * 0
+                , numero = calcula.numero * 0
+                , operador = ""
+            }
 
         -- Insertado de numeros
         -- De todos los valores insertados, se evaluan si son iguales a cero
-        -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
-        -- para las operaciones
+        -- Sino es el caso transforma el valor anterior en cadena y luego
+        -- en numero nuevamente para las operaciones
         Insertar num ->
             if num.yaInserto then
                 if calcula.numero == 0 then
                     { calcula | numero = num.valor }
 
                 else
-                    { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ String.fromInt num.valor)) }
+                    { calcula
+                        | numero =
+                            String.fromInt calcula.numero
+                                ++ String.fromInt num.valor
+                                |> String.toInt
+                                |> Maybe.withDefault 0
+                    }
 
             else if calcula.calculado == 0 then
                 { calcula | calculado = num.valor }
 
             else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ String.fromInt num.valor)) }
+                { calcula
+                    | calculado =
+                        String.fromInt calcula.calculado
+                            ++ String.fromInt num.valor
+                            |> String.toInt
+                            |> Maybe.withDefault 0
+                }
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
@@ -145,11 +178,25 @@ vista resultado =
                 , style "text-align" "center"
                 ]
                 -- Contenido del Panel
-                [ text (panelDeCalculo resultado.calculado resultado.operador resultado.numero) ]
+                [ text
+                    (panelDeCalculo
+                        resultado.calculado
+                        resultado.operador
+                        resultado.numero
+                    )
+                ]
 
             -- botones de la calculadora
-            , div [ style "display" "flex", style "flex-direction" "row-reverse" ]
-                [ div [ style "display" "flex", style "flex-direction" "column", style "padding-right" "20px", style "padding-top" "10px" ]
+            , div
+                [ style "display" "flex"
+                , style "flex-direction" "row-reverse"
+                ]
+                [ div
+                    [ style "display" "flex"
+                    , style "flex-direction" "column"
+                    , style "padding-right" "20px"
+                    , style "padding-top" "10px"
+                    ]
                     [ btnOperador (Operador "+") "+"
                     , btnOperador (Operador "-") "-"
                     , btnOperador (Operador "*") "×"
@@ -157,7 +204,11 @@ vista resultado =
                     ]
                 , insercionNumeros resultado.operador
                 ]
-            , div [] [ btnCalc Reinicio "C", insercionCero resultado.operador, btnIgualdad resultado.operador ]
+            , div []
+                [ btnCalc Reinicio "C"
+                , insercionCero resultado.operador
+                , btnIgualdad resultado.operador
+                ]
             ]
         ]
 
@@ -234,10 +285,13 @@ insercionCero operador =
 panelDeCalculo : Int -> String -> Int -> String
 panelDeCalculo primer_numero operador segundo_numero =
     if segundo_numero == 0 then
-        String.fromInt primer_numero ++ operador
+        String.fromInt primer_numero
+            ++ operador
 
     else
-        String.fromInt primer_numero ++ operador ++ String.fromInt segundo_numero
+        String.fromInt primer_numero
+            ++ operador
+            ++ String.fromInt segundo_numero
 
 
 
