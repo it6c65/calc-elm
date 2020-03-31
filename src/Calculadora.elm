@@ -28,6 +28,10 @@ inicio =
     { calculado = 0, operador = "", numero = 0 }
 
 
+type alias Numero =
+    { valor : Int, alPrincipio : Bool }
+
+
 
 -- Paso el mensaje de actualizacion
 
@@ -39,28 +43,8 @@ type Mensaje
     | Multiplica
     | Divide
     | Reinicio
-      -- Declaracion para insertar el primer numero
-    | InsertarUnoAlprincipio
-    | InsertarDosAlprincipio
-    | InsertarTresAlprincipio
-    | InsertarCuatroAlprincipio
-    | InsertarCincoAlprincipio
-    | InsertarSeisAlprincipio
-    | InsertarSieteAlprincipio
-    | InsertarOchoAlprincipio
-    | InsertarNueveAlprincipio
-    | InsertarCeroAlprincipio
-      -- Declaracion de insertado de Numeros (el sengundo)
-    | InsertarUno
-    | InsertarDos
-    | InsertarTres
-    | InsertarCuatro
-    | InsertarCinco
-    | InsertarSeis
-    | InsertarSiete
-    | InsertarOcho
-    | InsertarNueve
-    | InsertarCero
+      -- Declaracion para insertar numeros
+    | Insertar Numero
       -- Declaracion de insertado de Vista de Operadores
     | InsertarVSuma
     | InsertarVResta
@@ -88,153 +72,23 @@ actualiza mensaje calcula =
         Reinicio ->
             { calcula | calculado = calcula.calculado * 0, numero = calcula.numero * 0, operador = "" }
 
-        -- Insertado de numeros del primer numero
-        -- De todos los valores insertados, se evaluan si son iguales a cero
-        -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
-        -- para las operaciones
-        InsertarUnoAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 1 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "1")) }
-
-        InsertarDosAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 2 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "2")) }
-
-        InsertarTresAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 3 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "3")) }
-
-        InsertarCuatroAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 4 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "4")) }
-
-        InsertarCincoAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 5 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "5")) }
-
-        InsertarSeisAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 6 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "6")) }
-
-        InsertarSieteAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 7 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "7")) }
-
-        InsertarOchoAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 8 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "8")) }
-
-        InsertarNueveAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 9 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "9")) }
-
-        InsertarCeroAlprincipio ->
-            if calcula.calculado == 0 then
-                { calcula | calculado = 0 }
-
-            else
-                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ "0")) }
-
         -- Insertado de numeros
         -- De todos los valores insertados, se evaluan si son iguales a cero
         -- Sino es el caso transforma el valor anterior en cadena y luego en numero nuevamente
         -- para las operaciones
-        InsertarUno ->
-            if calcula.numero == 0 then
-                { calcula | numero = 1 }
+        Insertar num ->
+            if num.alPrincipio then
+                if calcula.numero == 0 then
+                    { calcula | numero = num.valor }
+
+                else
+                    { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ String.fromInt num.valor)) }
+
+            else if calcula.calculado == 0 then
+                { calcula | calculado = num.valor }
 
             else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "1")) }
-
-        InsertarDos ->
-            if calcula.numero == 0 then
-                { calcula | numero = 2 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "2")) }
-
-        InsertarTres ->
-            if calcula.numero == 0 then
-                { calcula | numero = 3 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "3")) }
-
-        InsertarCuatro ->
-            if calcula.numero == 0 then
-                { calcula | numero = 4 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "4")) }
-
-        InsertarCinco ->
-            if calcula.numero == 0 then
-                { calcula | numero = 5 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "5")) }
-
-        InsertarSeis ->
-            if calcula.numero == 0 then
-                { calcula | numero = 6 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "6")) }
-
-        InsertarSiete ->
-            if calcula.numero == 0 then
-                { calcula | numero = 7 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "7")) }
-
-        InsertarOcho ->
-            if calcula.numero == 0 then
-                { calcula | numero = 8 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "8")) }
-
-        InsertarNueve ->
-            if calcula.numero == 0 then
-                { calcula | numero = 9 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "9")) }
-
-        InsertarCero ->
-            if calcula.numero == 0 then
-                { calcula | numero = 0 }
-
-            else
-                { calcula | numero = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.numero ++ "0")) }
+                { calcula | calculado = Maybe.withDefault 0 (String.toInt (String.fromInt calcula.calculado ++ String.fromInt num.valor)) }
 
         -- Vista de operadores
         -- Agrega el operador con el que determina el calculo
@@ -311,7 +165,7 @@ vista resultado =
                     ]
                 , insercionNumeros resultado.operador
                 ]
-            , div [] [ btnCalc Reinicio "C", insercionCero resultado.operador , btnIgualdad resultado.operador ]
+            , div [] [ btnCalc Reinicio "C", insercionCero resultado.operador, btnIgualdad resultado.operador ]
             ]
         ]
 
@@ -328,19 +182,19 @@ insercionNumeros operador =
         -- Botones para el primer numero
         div [ style "display" "flex", style "flex-direction" "column" ]
             [ div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarUnoAlprincipio "1"
-                , btnCalc InsertarDosAlprincipio "2"
-                , btnCalc InsertarTresAlprincipio "3"
+                [ btnCalc (Insertar (Numero 1 False)) "1"
+                , btnCalc (Insertar (Numero 2 False)) "2"
+                , btnCalc (Insertar (Numero 3 False)) "3"
                 ]
             , div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarCuatroAlprincipio "4"
-                , btnCalc InsertarCincoAlprincipio "5"
-                , btnCalc InsertarSeisAlprincipio "6"
+                [ btnCalc (Insertar (Numero 4 False)) "4"
+                , btnCalc (Insertar (Numero 5 False)) "5"
+                , btnCalc (Insertar (Numero 6 False)) "6"
                 ]
             , div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarSieteAlprincipio "7"
-                , btnCalc InsertarOchoAlprincipio "8"
-                , btnCalc InsertarNueveAlprincipio "9"
+                [ btnCalc (Insertar (Numero 7 False)) "7"
+                , btnCalc (Insertar (Numero 8 False)) "8"
+                , btnCalc (Insertar (Numero 9 False)) "9"
                 ]
             ]
 
@@ -348,33 +202,36 @@ insercionNumeros operador =
         -- Botones para el segundo numero
         div [ style "display" "flex", style "flex-direction" "column" ]
             [ div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarUno "1"
-                , btnCalc InsertarDos "2"
-                , btnCalc InsertarTres "3"
+                [ btnCalc (Insertar (Numero 1 True)) "1"
+                , btnCalc (Insertar (Numero 2 True)) "2"
+                , btnCalc (Insertar (Numero 3 True)) "3"
                 ]
             , div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarCuatro "4"
-                , btnCalc InsertarCinco "5"
-                , btnCalc InsertarSeis "6"
+                [ btnCalc (Insertar (Numero 4 True)) "4"
+                , btnCalc (Insertar (Numero 5 True)) "5"
+                , btnCalc (Insertar (Numero 6 True)) "6"
                 ]
             , div [ style "display" "flex", style "flex-direction" "row" ]
-                [ btnCalc InsertarSiete "7"
-                , btnCalc InsertarOcho "8"
-                , btnCalc InsertarNueve "9"
+                [ btnCalc (Insertar (Numero 7 True)) "7"
+                , btnCalc (Insertar (Numero 8 True)) "8"
+                , btnCalc (Insertar (Numero 9 True)) "9"
                 ]
             ]
 
 
+
 -- Lo mismo que a los demas numeros para solo para el "Cero"
+
+
 insercionCero : String -> Html Mensaje
 insercionCero operador =
     if String.isEmpty operador then
         -- Boton Cero para el primer numero
-        btnCalc InsertarCeroAlprincipio "0"
+        btnCalc (Insertar (Numero 0 True)) "0"
 
     else
         -- Boton Cero para el segundo numero
-        btnCalc InsertarCero "0"
+        btnCalc (Insertar (Numero 0 False)) "0"
 
 
 
